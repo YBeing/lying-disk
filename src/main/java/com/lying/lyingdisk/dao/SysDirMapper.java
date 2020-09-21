@@ -17,5 +17,8 @@ public interface SysDirMapper {
     int updateByPrimaryKeySelective(SysDir record);
 
     int updateByPrimaryKey(SysDir record);
+
     List<SysDir> getByPid(@Param("pid") Long pid,@Param("uid") Long uid);
+
+    void deleteFileDirs(List<String> ids);
 }

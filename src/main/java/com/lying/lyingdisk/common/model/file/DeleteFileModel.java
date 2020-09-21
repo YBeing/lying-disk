@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AllFileModel {
-    private String fileName;
-    private String fileSize;
-    private String nmodifyTime;
+public class DeleteFileModel {
     private String type;
-    private String pid;
     private String id;
 }

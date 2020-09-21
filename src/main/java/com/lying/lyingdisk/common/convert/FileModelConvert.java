@@ -16,7 +16,10 @@ public class FileModelConvert {
             AllFileModel allFileModel = new AllFileModel();
             allFileModel.setFileName(sysDir.getDirName());
             allFileModel.setType("dir");
+            //这个pid是为了给前台创建目录以及进入目录查看其子目录使用的
             allFileModel.setPid(sysDir.getId().toString());
+            //这个id是为了我们删除和下载使用的
+            allFileModel.setId(sysDir.getId().toString());
             allFileModelList.add(allFileModel);
         });
 
@@ -32,6 +35,7 @@ public class FileModelConvert {
             allFileModel.setNmodifyTime(sysFile.getModifyTime());
             allFileModel.setType(sysFile.getFileType());
             allFileModel.setPid("none");
+            allFileModel.setId(sysFile.getId().toString());
             allFileModelList.add(allFileModel);
 
         });

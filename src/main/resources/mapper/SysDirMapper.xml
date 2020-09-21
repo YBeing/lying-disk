@@ -84,4 +84,12 @@
   <select id="getByPid" resultMap="BaseResultMap">
     select * from sys_dir where pid =#{pid} and uid =#{uid}
   </select>
+  <delete id="deleteFileDirs" parameterType="java.util.List" >
+    delete from sys_dir where id in
+    <foreach collection="list" open="(" close=")" item="item" separator=",">
+      #{item}
+    </foreach>
+
+  </delete>
+
 </mapper>

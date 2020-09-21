@@ -19,4 +19,9 @@ public interface SysFileMapper {
     int updateByPrimaryKey(SysFile record);
 
     List<SysFile> getByPid(@Param("pid") Long pid, @Param("uid") Long uid);
+
+    void deleteFiles(List<String> ids);
+
+    List<String> getFilesByIds(List<String> list);
+
 }

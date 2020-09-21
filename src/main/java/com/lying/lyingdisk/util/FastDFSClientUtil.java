@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -36,8 +37,8 @@ public class FastDFSClientUtil {
 
         StorePath storePath = storageClient.uploadFile((InputStream) file.getInputStream(), file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()), null);
         //String serverPath = thumbImageConfig.getThumbImagePath(storePath.getPath()) ;
-        //String serverPath = storePath.getFullPath() ;
-        String serverPath = storePath.getPath();
+        String serverPath = storePath.getFullPath() ;
+//        String serverPath = storePath.getPath();
         String groupName = storePath.getGroup();
         String nginxPath = getResAccessUrl(storePath);
         map.put("serverPath", serverPath);
@@ -49,6 +50,13 @@ public class FastDFSClientUtil {
 
     public void delFile(String filePath) {
         storageClient.deleteFile(filePath);
+
+    }
+
+    public void delFileList(List<String> filePathList) {
+        for (String path : filePathList) {
+            delFile(path);
+        }
 
     }
 

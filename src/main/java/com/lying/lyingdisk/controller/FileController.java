@@ -1,10 +1,13 @@
 package com.lying.lyingdisk.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.lying.lyingdisk.common.convert.FileModelConvert;
 import com.lying.lyingdisk.common.enums.ErrorCodeEnum;
 import com.lying.lyingdisk.common.model.Result;
 import com.lying.lyingdisk.common.model.file.AllFileModel;
+import com.lying.lyingdisk.common.model.file.DeleteFileModel;
 import com.lying.lyingdisk.common.model.file.UploadFileModel;
 import com.lying.lyingdisk.entity.SysFile;
 import com.lying.lyingdisk.entity.SysUser;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/file")
@@ -107,6 +111,32 @@ public class FileController {
         } else {
             return new Result(ErrorCodeEnum.SUCCESS.getCode(), "添加成功", "1", fileNames);
         }
+    }
+    @PostMapping("/deleteFile")
+    @ResponseBody
+    public Result deleteFile(@RequestBody String data){
+        List<DeleteFileModel> models = JSON.parseArray(data, DeleteFileModel.class);
+        List<String> dirIdList = models.stream()
+                .map(model -> {
+                    if (StrUtil.equals(model.getType(), "dir")) {
+                        return model.getId();
+                    }
+                    return null;
+                }).collect(Collectors.toList());
+
+        List<String> fileIdList = models.stream()
+                .map(model -> {
+                    if (!StrUtil.equals(model.getType(), "dir")) {
+                        return model.getId();
+                    }
+                    return null;
+                }).collect(Collectors.toList());
+
+        fileService.deleteFiles(fileIdList);
+        fileDirService.deleteFileDir(dirIdList);
+        return new Result(ErrorCodeEnum.SUCCESS.getCode(), "删除成功", "1");
+
+
     }
 
     public SysFile convertFileInfoMap(MultipartFile file,Map pathInfoMap,UploadFileModel uploadFileModel ){

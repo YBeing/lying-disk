@@ -6,8 +6,10 @@ import com.lying.lyingdisk.common.model.file.AllFileModel;
 import com.lying.lyingdisk.dao.SysFileMapper;
 import com.lying.lyingdisk.entity.SysFile;
 import com.lying.lyingdisk.service.FileService;
+import com.lying.lyingdisk.util.FastDFSClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 public class FileServiceImpl implements FileService{
     @Autowired
     private SysFileMapper sysFileMapper;
+    @Autowired
+    private FastDFSClientUtil fastDFSClientUtil;
 
     @Override
     public List<AllFileModel> getFileNameByPid(Long pid, Long uid) {
@@ -34,5 +38,18 @@ public class FileServiceImpl implements FileService{
         int insert = sysFileMapper.insert(sysFile);
         Assert.isTrue(insert>0,"新增文件信息失败");
         return insert;
+    }
+
+    @Override
+    @Transactional
+    /**
+     * filepath: group1/M00/00/00/wKgDMV9o4B-AHEQRAAcppDDlZRk814.png
+     */
+    public void deleteFiles(List<String> ids) {
+        List<String> serverPathList = sysFileMapper.getFilesByIds(ids);
+        fastDFSClientUtil.delFileList(serverPathList);
+        sysFileMapper.deleteFiles(ids);
+
+
     }
 }

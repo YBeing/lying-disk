@@ -37,4 +37,9 @@ public class FileDirServiceImpl implements FileDirService {
 
         return allFileModelList;
     }
+
+    @Override
+    public void deleteFileDir(List<String> ids) {
+        sysDirMapper.deleteFileDirs(ids);
+    }
 }

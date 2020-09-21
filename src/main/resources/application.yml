@@ -28,3 +28,6 @@ fdfs:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.lying.lyingdisk.entity
+logging:
+  level:
+    com.lying.lyingdisk.dao: debug

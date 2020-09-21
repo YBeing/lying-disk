@@ -166,4 +166,17 @@
   <select id="getByPid" resultMap="BaseResultMap">
   select * from sys_file where dir_pid =#{pid} and uid=#{uid}
 </select>
+  <delete id="deleteFiles" parameterType="java.util.List" >
+    delete from sys_file where id in
+    <foreach collection="list" open="(" close=")" item="item" separator=",">
+      #{item}
+    </foreach>
+
+  </delete>
+  <select id="getFilesByIds" parameterType="java.util.List" resultType="java.lang.String">
+    select server_path from sys_file where id in
+    <foreach collection="list" open="(" close=")" separator="," item="item" >
+      #{item}
+    </foreach>
+  </select>
 </mapper>
