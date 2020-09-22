@@ -20,5 +20,7 @@ public interface SysDirMapper {
 
     List<SysDir> getByPid(@Param("pid") Long pid,@Param("uid") Long uid);
 
+    List<String> getByidList(List<String> list);
+
     void deleteFileDirs(List<String> ids);
 }

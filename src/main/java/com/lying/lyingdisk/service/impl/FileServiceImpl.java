@@ -52,4 +52,16 @@ public class FileServiceImpl implements FileService{
 
 
     }
+    @Override
+    @Transactional
+    /**
+     * filepath: group1/M00/00/00/wKgDMV9o4B-AHEQRAAcppDDlZRk814.png
+     */
+    public void deleteFilesByPid(List<String> pids) {
+        List<String> serverPathList = sysFileMapper.getFilesByPids(pids);
+        fastDFSClientUtil.delFileList(serverPathList);
+        sysFileMapper.deleteFiles(pids);
+
+
+    }
 }

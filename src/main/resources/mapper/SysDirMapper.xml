@@ -92,4 +92,10 @@
 
   </delete>
 
+  <select id="getByidList" parameterType="java.util.List" resultType="java.lang.String">
+    select id from sys_dir where pid in
+    <foreach collection="list" open="(" close=")" separator="," item="item" >
+      #{item}
+    </foreach>
+  </select>
 </mapper>
