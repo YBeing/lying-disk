@@ -16,7 +16,9 @@ public class GlobalCorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowCredentials(true)
-                        .allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS");
+                        .allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
+                        //文件上传的文件名称在请求头里，这里是允许我们暴露这个请求头信息给前端使用
+                        .exposedHeaders("Content-Disposition");
             }
         };
     }

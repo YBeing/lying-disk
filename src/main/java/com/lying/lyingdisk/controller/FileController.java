@@ -8,6 +8,7 @@ import com.lying.lyingdisk.common.enums.ErrorCodeEnum;
 import com.lying.lyingdisk.common.model.Result;
 import com.lying.lyingdisk.common.model.file.AllFileModel;
 import com.lying.lyingdisk.common.model.file.DeleteFileModel;
+import com.lying.lyingdisk.common.model.file.DownloadFileModel;
 import com.lying.lyingdisk.common.model.file.UploadFileModel;
 import com.lying.lyingdisk.entity.SysFile;
 import com.lying.lyingdisk.entity.SysUser;
@@ -15,12 +16,19 @@ import com.lying.lyingdisk.service.FileDirService;
 import com.lying.lyingdisk.service.FileService;
 import com.lying.lyingdisk.service.UserService;
 import com.lying.lyingdisk.util.FastDFSClientUtil;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,12 +67,36 @@ public class FileController {
         return result;
     }
 
-    @PostMapping("/download")
-    @ResponseBody
-    public Result downloadFile() throws IOException {
-//        String uploadFilePath = fastDFSClientUtil.uploadFile(file);
-//        return new Result(ErrorCodeEnum.SUCCESS.getCode(),"上传成功","1",uploadFilePath);
-        return null;
+    @GetMapping("/downloadFile")
+    public void downloadFile(String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        List<DeleteFileModel> models = JSON.parseArray(data, DeleteFileModel.class);
+        String[] idArr = null;
+        if (StrUtil.isNotEmpty(data)){
+            idArr = data.split(",");
+        }
+        InputStream inputStream=null;
+        OutputStream os=null;
+        DownloadFileModel downloadFileModel= fileService.downloadBath(Arrays.asList(idArr));
+        List<String> fileNameList = downloadFileModel.getFileNameList();
+        List<InputStream> inputStreamList = downloadFileModel.getInputStreamList();
+
+
+        String contentType = request.getServletContext().getMimeType(fileNameList.get(0));
+        String contentDisposition = "attachment;filename=" + fileNameList.get(0);
+
+        // 设置头
+        response.setHeader("Content-Type",contentType);
+        response.setHeader("Content-Disposition",contentDisposition);
+
+        // 获取绑定了客户端的流
+        ServletOutputStream output = response.getOutputStream();
+        // 把输入流中的数据写入到输出流中
+        IOUtils.copy(inputStreamList.get(0),output);
+
+        inputStreamList.get(0).close();
+
+
+
     }
 
     @GetMapping("/createDir")

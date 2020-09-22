@@ -3,7 +3,7 @@
 <mapper namespace="com.lying.lyingdisk.dao.SysFileMapper" >
   <resultMap id="BaseResultMap" type="com.lying.lyingdisk.entity.SysFile" >
     <constructor >
-      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="file_name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="file_type" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="file_size" jdbcType="BIGINT" javaType="java.lang.Long" />
@@ -188,6 +188,12 @@
   </delete>
   <select id="getFilesByPids" parameterType="java.util.List" resultType="java.lang.String">
     select server_path from sys_file where dir_pid in
+    <foreach collection="list" open="(" close=")" separator="," item="item" >
+      #{item}
+    </foreach>
+  </select>
+  <select id="getFilesInfoByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select * from sys_file where id in
     <foreach collection="list" open="(" close=")" separator="," item="item" >
       #{item}
     </foreach>

@@ -1,6 +1,7 @@
 package com.lying.lyingdisk.service;
 
 import com.lying.lyingdisk.common.model.file.AllFileModel;
+import com.lying.lyingdisk.common.model.file.DownloadFileModel;
 import com.lying.lyingdisk.entity.SysFile;
 
 import java.util.List;
@@ -24,4 +25,8 @@ public interface FileService {
      * 根据文件夹删除下面的子文件夹
      */
     void deleteFilesByPid(List<String> pids);
+    /**
+     * 批量下载文件
+     */
+    DownloadFileModel downloadBath(List<String> idList);
 }

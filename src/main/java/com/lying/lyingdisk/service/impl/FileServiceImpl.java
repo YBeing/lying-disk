@@ -1,8 +1,10 @@
 package com.lying.lyingdisk.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.lying.lyingdisk.common.convert.FileModelConvert;
 import com.lying.lyingdisk.common.model.file.AllFileModel;
+import com.lying.lyingdisk.common.model.file.DownloadFileModel;
 import com.lying.lyingdisk.dao.SysFileMapper;
 import com.lying.lyingdisk.entity.SysFile;
 import com.lying.lyingdisk.service.FileService;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -62,6 +66,31 @@ public class FileServiceImpl implements FileService{
         fastDFSClientUtil.delFileList(serverPathList);
         sysFileMapper.deleteFiles(pids);
 
+
+    }
+
+    @Override
+    public DownloadFileModel downloadBath(List<String> idList) {
+        if (CollectionUtil.isNotEmpty(idList)){
+
+            List<SysFile> sysFileList = sysFileMapper.getFilesInfoByIds(idList);
+            List<InputStream> inputStreamList = new LinkedList<>();
+            List<String> filenameList = new LinkedList<>();
+
+            DownloadFileModel downloadFileModels = new DownloadFileModel();
+            sysFileList.forEach(sysFile->{
+                StorePath storePath = StorePath.parseFromUrl(sysFile.getServerPath());
+                InputStream inputStream = fastDFSClientUtil.download(storePath.getGroup(), storePath.getPath());
+                inputStreamList.add(inputStream);
+                filenameList.add(sysFile.getFileName());
+
+            });
+            downloadFileModels.setFileNameList(filenameList);
+            downloadFileModels.setInputStreamList(inputStreamList);
+            return downloadFileModels;
+
+        }
+        return null;
 
     }
 }

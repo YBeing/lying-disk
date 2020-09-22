@@ -25,6 +25,7 @@ public interface SysFileMapper {
     void deleteFilesByPid(List<String> pids);
 
     List<String> getFilesByIds(List<String> list);
+    List<SysFile> getFilesInfoByIds(List<String> list);
     List<String> getFilesByPids(List<String> list);
 
 }
