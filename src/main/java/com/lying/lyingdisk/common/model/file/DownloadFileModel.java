@@ -5,12 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.InputStream;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class DownloadFileModel {
-    private List<InputStream> inputStreamList;
-    private List<String>      fileNameList;
+    private InputStream inputStream;
+    private String     fileName;
 }

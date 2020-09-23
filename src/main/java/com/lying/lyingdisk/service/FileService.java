@@ -26,7 +26,7 @@ public interface FileService {
      */
     void deleteFilesByPid(List<String> pids);
     /**
-     * 批量下载文件
+     * 单个下载文件
      */
-    DownloadFileModel downloadBath(List<String> idList);
+    DownloadFileModel downloadFile(String id);
 }

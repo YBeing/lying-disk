@@ -27,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,33 +66,37 @@ public class FileController {
     }
 
     @GetMapping("/downloadFile")
-    public void downloadFile(String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        List<DeleteFileModel> models = JSON.parseArray(data, DeleteFileModel.class);
-        String[] idArr = null;
-        if (StrUtil.isNotEmpty(data)){
-            idArr = data.split(",");
-        }
+    public void downloadFile(String id, HttpServletRequest request, HttpServletResponse response)  {
         InputStream inputStream=null;
-        OutputStream os=null;
-        DownloadFileModel downloadFileModel= fileService.downloadBath(Arrays.asList(idArr));
-        List<String> fileNameList = downloadFileModel.getFileNameList();
-        List<InputStream> inputStreamList = downloadFileModel.getInputStreamList();
 
-
-        String contentType = request.getServletContext().getMimeType(fileNameList.get(0));
-        String contentDisposition = "attachment;filename=" + fileNameList.get(0);
+        DownloadFileModel downloadFileModel= fileService.downloadFile(id);
+        String fileName = downloadFileModel.getFileName();
+        inputStream = downloadFileModel.getInputStream();
+        String contentType = request.getServletContext().getMimeType(fileName);
+        String contentDisposition = "attachment;filename=" + fileName;
 
         // 设置头
         response.setHeader("Content-Type",contentType);
         response.setHeader("Content-Disposition",contentDisposition);
 
-        // 获取绑定了客户端的流
-        ServletOutputStream output = response.getOutputStream();
-        // 把输入流中的数据写入到输出流中
-        IOUtils.copy(inputStreamList.get(0),output);
+        try {
+            // 获取绑定了客户端的流
+            ServletOutputStream output = response.getOutputStream();
+            // 把输入流中的数据写入到输出流中
+            IOUtils.copy(inputStream,output);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream !=null ){
+                try {
+                    inputStream.close();
 
-        inputStreamList.get(0).close();
+                } catch (IOException e) {
 
+                }
+
+            }
+        }
 
 
     }
