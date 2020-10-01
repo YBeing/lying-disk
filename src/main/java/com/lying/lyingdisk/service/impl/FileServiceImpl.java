@@ -6,6 +6,7 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.lying.lyingdisk.common.convert.FileModelConvert;
 import com.lying.lyingdisk.common.model.file.AllFileModel;
 import com.lying.lyingdisk.common.model.file.DownloadFileModel;
+import com.lying.lyingdisk.common.model.file.MusicInfoModel;
 import com.lying.lyingdisk.dao.SysFileMapper;
 import com.lying.lyingdisk.entity.SysFile;
 import com.lying.lyingdisk.service.FileService;
@@ -16,7 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -39,6 +44,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public int addFileInfo(SysFile sysFile) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = sdf.format(new Date());
+        sysFile.setModifyTime(currentDate);
         int insert = sysFileMapper.insert(sysFile);
         Assert.isTrue(insert > 0, "新增文件信息失败");
         return insert;
@@ -88,5 +96,27 @@ public class FileServiceImpl implements FileService {
         downloadFileModels.setInputStream(inputStream);
         return downloadFileModels;
 
+    }
+
+    @Override
+    public List<MusicInfoModel> getImageGroupByDate() {
+        List<MusicInfoModel> imageInfo = sysFileMapper.getImageGroupByDate();
+        imageInfo.forEach(image->{
+            String viewPathList = image.getViewPathList();
+            String[] PathList = viewPathList.split(",");
+            image.setNginxViewList(Arrays.asList(PathList));
+        });
+        return imageInfo;
+    }
+
+    @Override
+    public MusicInfoModel getAllImage() {
+        List<MusicInfoModel> allImage = sysFileMapper.getAllImage();
+        List<String> pathList = allImage.stream()
+                .map(model -> model.getViewPath())
+                .collect(Collectors.toList());
+        MusicInfoModel musicInfoModel = new MusicInfoModel();
+        musicInfoModel.setNginxViewList(pathList);
+        return musicInfoModel;
     }
 }

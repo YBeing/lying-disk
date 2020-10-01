@@ -1,5 +1,6 @@
 package com.lying.lyingdisk.dao;
 
+import com.lying.lyingdisk.common.model.file.MusicInfoModel;
 import com.lying.lyingdisk.entity.SysFile;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,7 +26,12 @@ public interface SysFileMapper {
     void deleteFilesByPid(List<String> pids);
 
     List<String> getFilesByIds(List<String> list);
+
     List<SysFile> getFilesInfoByIds(List<String> list);
+
     List<String> getFilesByPids(List<String> list);
+
+    List<MusicInfoModel> getImageGroupByDate();
+    List<MusicInfoModel> getAllImage();
 
 }

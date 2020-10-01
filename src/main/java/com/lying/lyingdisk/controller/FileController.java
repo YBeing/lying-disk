@@ -6,10 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.lying.lyingdisk.common.convert.FileModelConvert;
 import com.lying.lyingdisk.common.enums.ErrorCodeEnum;
 import com.lying.lyingdisk.common.model.Result;
-import com.lying.lyingdisk.common.model.file.AllFileModel;
-import com.lying.lyingdisk.common.model.file.DeleteFileModel;
-import com.lying.lyingdisk.common.model.file.DownloadFileModel;
-import com.lying.lyingdisk.common.model.file.UploadFileModel;
+import com.lying.lyingdisk.common.model.file.*;
 import com.lying.lyingdisk.entity.SysFile;
 import com.lying.lyingdisk.entity.SysUser;
 import com.lying.lyingdisk.service.FileDirService;
@@ -171,6 +168,20 @@ public class FileController {
         return new Result(ErrorCodeEnum.SUCCESS.getCode(), "删除成功", "1");
 
 
+    }
+
+    @GetMapping("/getImageGroupByDate")
+    @ResponseBody
+    public Result getImageGroupByDate(){
+        List<MusicInfoModel> imageInfo = fileService.getImageGroupByDate();
+        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
+    }
+
+    @GetMapping("/getAllImage")
+    @ResponseBody
+    public Result getAllImage(){
+        MusicInfoModel imageInfo = fileService.getAllImage();
+        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
     }
 
     public SysFile convertFileInfoMap(MultipartFile file,Map pathInfoMap,UploadFileModel uploadFileModel ){

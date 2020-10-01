@@ -32,7 +32,7 @@ public class FileModelConvert {
             AllFileModel allFileModel = new AllFileModel();
             allFileModel.setFileName(sysFile.getFileName());
             allFileModel.setFileSize(sysFile.getFileSize().toString());
-            allFileModel.setNmodifyTime(sysFile.getModifyTime());
+            allFileModel.setModifyTime(sysFile.getModifyTime());
             allFileModel.setType(sysFile.getFileType());
             allFileModel.setPid("none");
             allFileModel.setId(sysFile.getId().toString());

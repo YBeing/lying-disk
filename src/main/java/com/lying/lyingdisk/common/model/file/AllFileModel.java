@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class AllFileModel {
     private String fileName;
     private String fileSize;
-    private String nmodifyTime;
+    private String modifyTime;
     private String type;
     private String pid;
     private String id;
