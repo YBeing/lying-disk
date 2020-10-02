@@ -28,6 +28,7 @@ public interface FileService {
      */
 
     void deleteFilesByPid(List<String> pids);
+
     /**
      * 单个下载文件
      */
@@ -37,8 +38,14 @@ public interface FileService {
      * 根据日期展示图片的信息
      */
     List<MusicInfoModel> getImageGroupByDate();
+
     /**
      * 展示所有的图片
      */
     MusicInfoModel getAllImage();
+
+    /**
+     * 根据条件查询图片
+     */
+    MusicInfoModel searchImage(String keyword);
 }

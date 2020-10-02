@@ -40,7 +40,9 @@ public class FileController {
     private FileService fileService;
     @Autowired
     private UserService userService;
-
+    /**
+     * 文件上传
+     */
     @PostMapping("/upload")
     @ResponseBody
     public Result uploadFile(MultipartFile file, UploadFileModel uploadFileModel) throws IOException {
@@ -62,6 +64,9 @@ public class FileController {
         return result;
     }
 
+    /**
+     * 文件下载
+     */
     @GetMapping("/downloadFile")
     public void downloadFile(String id, HttpServletRequest request, HttpServletResponse response)  {
         InputStream inputStream=null;
@@ -98,6 +103,9 @@ public class FileController {
 
     }
 
+    /**
+     * 创建文件夹
+     */
     @GetMapping("/createDir")
     @ResponseBody
     public Result createDir(@RequestParam String dirname,
@@ -125,6 +133,9 @@ public class FileController {
 
     }
 
+    /**
+     * 查询文件或者文件夹信息
+     */
     @GetMapping("/indexFilePage")
     @ResponseBody
     public Result indexFilePage(@RequestParam Long pid,
@@ -143,6 +154,10 @@ public class FileController {
             return new Result(ErrorCodeEnum.SUCCESS.getCode(), "添加成功", "1", fileNames);
         }
     }
+
+    /**
+     * 删除文件，支持批量删除
+     */
     @PostMapping("/deleteFile")
     @ResponseBody
     public Result deleteFile(@RequestBody String data){
@@ -170,6 +185,9 @@ public class FileController {
 
     }
 
+    /**
+     * 图片展示，根据时间轴
+     */
     @GetMapping("/getImageGroupByDate")
     @ResponseBody
     public Result getImageGroupByDate(){
@@ -177,11 +195,24 @@ public class FileController {
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
     }
 
+    /**
+     * 查询所有图片，根据时间排序展示
+     */
     @GetMapping("/getAllImage")
     @ResponseBody
     public Result getAllImage(){
         MusicInfoModel imageInfo = fileService.getAllImage();
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
+    }
+
+    /**
+     * 查询图片
+     */
+    @GetMapping("/searchImage")
+    @ResponseBody
+    public Result searchImage(String keyWord){
+        MusicInfoModel musicInfoModel = fileService.searchImage(keyWord);
+        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",musicInfoModel);
     }
 
     public SysFile convertFileInfoMap(MultipartFile file,Map pathInfoMap,UploadFileModel uploadFileModel ){

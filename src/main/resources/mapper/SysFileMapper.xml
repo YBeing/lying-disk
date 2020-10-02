@@ -220,4 +220,20 @@
         modify_time
     DESC;
   </select>
+    <select id="searchImage" resultType="com.lying.lyingdisk.common.model.file.MusicInfoModel">
+    SELECT
+        nginx_view_path as viewPath
+    FROM
+        sys_file
+    WHERE file_type in('png','jpg','jpeg')
+    <if test="modifyTime != null">
+        AND modify_time =#{modifyTime}
+    </if>
+    <if test="fileName != null">
+        AND file_name =#{fileName}
+    </if>
+    ORDER BY
+        modify_time
+    DESC;
+  </select>
 </mapper>

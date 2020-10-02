@@ -101,7 +101,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public List<MusicInfoModel> getImageGroupByDate() {
         List<MusicInfoModel> imageInfo = sysFileMapper.getImageGroupByDate();
-        imageInfo.forEach(image->{
+        imageInfo.forEach(image -> {
             String viewPathList = image.getViewPathList();
             String[] PathList = viewPathList.split(",");
             image.setNginxViewList(Arrays.asList(PathList));
@@ -118,5 +118,27 @@ public class FileServiceImpl implements FileService {
         MusicInfoModel musicInfoModel = new MusicInfoModel();
         musicInfoModel.setNginxViewList(pathList);
         return musicInfoModel;
+    }
+
+    @Override
+    public MusicInfoModel searchImage(String keyword) {
+        //如果传入的参数能转换成数字，则代表是日期
+        List<MusicInfoModel> musicInfoModels = null;
+        try {
+            if (Integer.parseInt(keyword.replaceAll("-","")) > 0) {
+                musicInfoModels = sysFileMapper.searchImage(keyword, null);
+            }
+        } catch (NumberFormatException e) {
+            musicInfoModels = sysFileMapper.searchImage(null, keyword);
+        }
+        MusicInfoModel finalMusicInfoModel = null;
+        if (CollectionUtil.isNotEmpty(musicInfoModels)){
+            List<String> viewPathList = musicInfoModels.stream()
+                    .map(musicInfoModel -> musicInfoModel.getViewPath())
+                    .collect(Collectors.toList());
+            finalMusicInfoModel.setNginxViewList(viewPathList);
+
+        }
+        return finalMusicInfoModel;
     }
 }

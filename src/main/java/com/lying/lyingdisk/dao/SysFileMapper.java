@@ -32,6 +32,10 @@ public interface SysFileMapper {
     List<String> getFilesByPids(List<String> list);
 
     List<MusicInfoModel> getImageGroupByDate();
+
     List<MusicInfoModel> getAllImage();
+
+    List<MusicInfoModel> searchImage(@Param("modifyTime") String modifyTime,@Param("fileName") String fileName);
+
 
 }
