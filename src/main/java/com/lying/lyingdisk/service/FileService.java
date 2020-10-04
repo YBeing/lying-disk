@@ -47,5 +47,5 @@ public interface FileService {
     /**
      * 根据条件查询图片
      */
-    MusicInfoModel searchImage(String keyword);
+    MusicInfoModel searchImage(String keyword, String username);
 }

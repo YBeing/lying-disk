@@ -134,17 +134,22 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public MusicInfoModel searchImage(String keyword) {
+    public MusicInfoModel searchImage(String keyword, String username) {
+        SysUser user = sysUserMapper.getUserByName(username);
+        if (ObjectUtil.isNull(user)){
+            throw new RuntimeException("用户信息不存在！");
+        }
+
         //如果传入的参数能转换成数字，则代表是日期
         List<MusicInfoModel> musicInfoModels = null;
         try {
             if (Integer.parseInt(keyword.replaceAll("-","")) > 0) {
-                musicInfoModels = sysFileMapper.searchImage(keyword, null);
+                musicInfoModels = sysFileMapper.searchImage(keyword, null,user.getUserId());
             }
         } catch (NumberFormatException e) {
-            musicInfoModels = sysFileMapper.searchImage(null, keyword);
+            musicInfoModels = sysFileMapper.searchImage(null, keyword, user.getUserId());
         }
-        MusicInfoModel finalMusicInfoModel = null;
+        MusicInfoModel finalMusicInfoModel = new MusicInfoModel();
         if (CollectionUtil.isNotEmpty(musicInfoModels)){
             List<String> viewPathList = musicInfoModels.stream()
                     .map(musicInfoModel -> musicInfoModel.getViewPath())

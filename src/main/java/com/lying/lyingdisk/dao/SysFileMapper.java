@@ -35,7 +35,8 @@ public interface SysFileMapper {
 
     List<MusicInfoModel> getAllImage(Long uid);
 
-    List<MusicInfoModel> searchImage(@Param("modifyTime") String modifyTime,@Param("fileName") String fileName);
+    List<MusicInfoModel> searchImage(@Param("modifyTime") String modifyTime,@Param("fileName") String fileName,
+                                     @Param("uid") Long uid);
 
 
 }

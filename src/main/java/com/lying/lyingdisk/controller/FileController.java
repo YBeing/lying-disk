@@ -210,8 +210,8 @@ public class FileController {
      */
     @GetMapping("/searchImage")
     @ResponseBody
-    public Result searchImage(String keyWord){
-        MusicInfoModel musicInfoModel = fileService.searchImage(keyWord);
+    public Result searchImage(String keyWord, String username){
+        MusicInfoModel musicInfoModel = fileService.searchImage(keyWord,username);
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",musicInfoModel);
     }
 

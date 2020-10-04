@@ -233,7 +233,10 @@
         AND modify_time =#{modifyTime}
     </if>
     <if test="fileName != null">
-        AND file_name =#{fileName}
+        AND file_name like concat('%',#{fileName},'%')
+    </if>
+    <if test="uid != null">
+        AND uid =#{uid}
     </if>
     ORDER BY
         modify_time
