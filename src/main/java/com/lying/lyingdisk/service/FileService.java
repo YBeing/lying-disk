@@ -37,12 +37,12 @@ public interface FileService {
     /**
      * 根据日期展示图片的信息
      */
-    List<MusicInfoModel> getImageGroupByDate();
+    List<MusicInfoModel> getImageGroupByDate(String username);
 
     /**
      * 展示所有的图片
      */
-    MusicInfoModel getAllImage();
+    MusicInfoModel getAllImage(String username);
 
     /**
      * 根据条件查询图片

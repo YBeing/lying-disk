@@ -190,8 +190,8 @@ public class FileController {
      */
     @GetMapping("/getImageGroupByDate")
     @ResponseBody
-    public Result getImageGroupByDate(){
-        List<MusicInfoModel> imageInfo = fileService.getImageGroupByDate();
+    public Result getImageGroupByDate(String username){
+        List<MusicInfoModel> imageInfo = fileService.getImageGroupByDate(username);
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
     }
 
@@ -200,8 +200,8 @@ public class FileController {
      */
     @GetMapping("/getAllImage")
     @ResponseBody
-    public Result getAllImage(){
-        MusicInfoModel imageInfo = fileService.getAllImage();
+    public Result getAllImage(String username){
+        MusicInfoModel imageInfo = fileService.getAllImage(username);
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
     }
 

@@ -1,5 +1,6 @@
 package com.lying.lyingdisk.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.lying.lyingdisk.common.model.user.UserCreateModel;
 import com.lying.lyingdisk.dao.SysUserMapper;
 import com.lying.lyingdisk.entity.SysUser;
@@ -17,6 +18,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void registerUser(UserCreateModel model) {
+        SysUser sysuser = getByName(model.getUsername());
+        if (ObjectUtil.isNotNull(sysuser)){
+            throw new RuntimeException("该用户已经存在！");
+        }
         String salt = SaltUtil.getSalt();
         SysUser user =new SysUser();
         user.setUserName(model.getUsername());

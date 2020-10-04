@@ -1,6 +1,7 @@
 package com.lying.lyingdisk.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.lying.lyingdisk.common.convert.FileModelConvert;
@@ -8,7 +9,9 @@ import com.lying.lyingdisk.common.model.file.AllFileModel;
 import com.lying.lyingdisk.common.model.file.DownloadFileModel;
 import com.lying.lyingdisk.common.model.file.MusicInfoModel;
 import com.lying.lyingdisk.dao.SysFileMapper;
+import com.lying.lyingdisk.dao.SysUserMapper;
 import com.lying.lyingdisk.entity.SysFile;
+import com.lying.lyingdisk.entity.SysUser;
 import com.lying.lyingdisk.service.FileService;
 import com.lying.lyingdisk.util.FastDFSClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,8 @@ public class FileServiceImpl implements FileService {
     private SysFileMapper sysFileMapper;
     @Autowired
     private FastDFSClientUtil fastDFSClientUtil;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     @Override
     public List<AllFileModel> getFileNameByPid(Long pid, Long uid) {
@@ -99,8 +104,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<MusicInfoModel> getImageGroupByDate() {
-        List<MusicInfoModel> imageInfo = sysFileMapper.getImageGroupByDate();
+    public List<MusicInfoModel> getImageGroupByDate(String username) {
+        SysUser user = sysUserMapper.getUserByName(username);
+        if (ObjectUtil.isNull(user)){
+            throw new RuntimeException("用户信息不存在！");
+        }
+        List<MusicInfoModel> imageInfo = sysFileMapper.getImageGroupByDate(user.getUserId());
         imageInfo.forEach(image -> {
             String viewPathList = image.getViewPathList();
             String[] PathList = viewPathList.split(",");
@@ -110,8 +119,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public MusicInfoModel getAllImage() {
-        List<MusicInfoModel> allImage = sysFileMapper.getAllImage();
+    public MusicInfoModel getAllImage(String username) {
+        SysUser user = sysUserMapper.getUserByName(username);
+        if (ObjectUtil.isNull(user)){
+            throw new RuntimeException("用户信息不存在！");
+        }
+        List<MusicInfoModel> allImage = sysFileMapper.getAllImage(user.getUserId());
         List<String> pathList = allImage.stream()
                 .map(model -> model.getViewPath())
                 .collect(Collectors.toList());

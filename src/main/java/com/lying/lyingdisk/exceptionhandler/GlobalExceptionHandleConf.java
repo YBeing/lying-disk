@@ -30,9 +30,6 @@ public class GlobalExceptionHandleConf {
             e = (Exception) ((UndeclaredThrowableException)e).getUndeclaredThrowable();
         }
         log.error("[handleException]: ",e);
-        if (e.getMessage().equals("token过期了！！")){
-            return new Result(ErrorCodeEnum.TOKEN_OVERTIME.getCode(),ErrorCodeEnum.TOKEN_OVERTIME.getDesc(),"0");
-        }
-        return new Result(ErrorCodeEnum.SYSTEM_ERR.getCode(),ErrorCodeEnum.SYSTEM_ERR.getDesc(),"0");
+        return new Result(ErrorCodeEnum.SYSTEM_ERR.getCode(),e.getMessage(),"0");
     }
 }
