@@ -14,4 +14,5 @@ public class AllFileModel {
     private String type;
     private String pid;
     private String id;
+    private String nginxViewPath;
 }

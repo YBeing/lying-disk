@@ -36,6 +36,7 @@ public class FileModelConvert {
             allFileModel.setType(sysFile.getFileType());
             allFileModel.setPid("none");
             allFileModel.setId(sysFile.getId().toString());
+            allFileModel.setNginxViewPath(sysFile.getNginxViewPath());
             allFileModelList.add(allFileModel);
 
         });

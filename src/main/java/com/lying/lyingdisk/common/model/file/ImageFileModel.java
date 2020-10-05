@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MusicInfoModel {
+public class ImageFileModel {
     private String modifyTime;
     private String viewPathList;
     private String viewPath;

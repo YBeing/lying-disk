@@ -198,7 +198,7 @@
             #{item}
         </foreach>
     </select>
-    <select id="getImageGroupByDate" resultType="com.lying.lyingdisk.common.model.file.MusicInfoModel">
+    <select id="getImageGroupByDate" resultType="com.lying.lyingdisk.common.model.file.ImageFileModel">
     SELECT
         modify_time modifyTime,
         GROUP_CONCAT( nginx_view_path SEPARATOR ',' ) viewPathList
@@ -210,7 +210,7 @@
         modify_time
     DESC;
   </select>
-    <select id="getAllImage" resultType="com.lying.lyingdisk.common.model.file.MusicInfoModel">
+    <select id="getAllImage" resultType="com.lying.lyingdisk.common.model.file.ImageFileModel">
     SELECT
         modify_time as modifyTime,
         nginx_view_path as viewPath
@@ -223,23 +223,37 @@
         modify_time
     DESC;
   </select>
-    <select id="searchImage" resultType="com.lying.lyingdisk.common.model.file.MusicInfoModel">
-    SELECT
+    <select id="searchImage" resultType="com.lying.lyingdisk.common.model.file.ImageFileModel">
+        SELECT
         nginx_view_path as viewPath
-    FROM
+        FROM
         sys_file
-    WHERE file_type in('png','jpg','jpeg')
-    <if test="modifyTime != null">
-        AND modify_time =#{modifyTime}
-    </if>
-    <if test="fileName != null">
-        AND file_name like concat('%',#{fileName},'%')
-    </if>
-    <if test="uid != null">
-        AND uid =#{uid}
-    </if>
-    ORDER BY
+        WHERE file_type in('png','jpg','jpeg')
+        <if test="modifyTime != null">
+            AND modify_time =#{modifyTime}
+        </if>
+        <if test="fileName != null">
+            AND file_name like concat('%',#{fileName},'%')
+        </if>
+        <if test="uid != null">
+            AND uid =#{uid}
+        </if>
+        ORDER BY
         modify_time
-    DESC;
-  </select>
+        DESC;
+    </select>
+    <select id="getAllMusicFile" resultType="com.lying.lyingdisk.common.model.file.AllFileModel">
+        SELECT file_name as fileName,
+                file_size as fileSize,
+                modify_time as modifyTime,
+                nginx_view_path as nginxViewPath,
+                file_type as type,
+                id
+
+        FROM
+        sys_file
+        WHERE uid =#{uid}
+            AND file_type in('MP3','mp3')
+
+    </select>
 </mapper>

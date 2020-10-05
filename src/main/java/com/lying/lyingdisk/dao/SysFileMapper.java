@@ -1,6 +1,7 @@
 package com.lying.lyingdisk.dao;
 
-import com.lying.lyingdisk.common.model.file.MusicInfoModel;
+import com.lying.lyingdisk.common.model.file.AllFileModel;
+import com.lying.lyingdisk.common.model.file.ImageFileModel;
 import com.lying.lyingdisk.entity.SysFile;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,12 +32,15 @@ public interface SysFileMapper {
 
     List<String> getFilesByPids(List<String> list);
 
-    List<MusicInfoModel> getImageGroupByDate(Long uid);
+    List<ImageFileModel> getImageGroupByDate(Long uid);
 
-    List<MusicInfoModel> getAllImage(Long uid);
+    List<ImageFileModel> getAllImage(Long uid);
 
-    List<MusicInfoModel> searchImage(@Param("modifyTime") String modifyTime,@Param("fileName") String fileName,
+    List<ImageFileModel> searchImage(@Param("modifyTime") String modifyTime,@Param("fileName") String fileName,
                                      @Param("uid") Long uid);
+
+    List<AllFileModel> getAllMusicFile(Long uid);
+
 
 
 }

@@ -7,7 +7,7 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.lying.lyingdisk.common.convert.FileModelConvert;
 import com.lying.lyingdisk.common.model.file.AllFileModel;
 import com.lying.lyingdisk.common.model.file.DownloadFileModel;
-import com.lying.lyingdisk.common.model.file.MusicInfoModel;
+import com.lying.lyingdisk.common.model.file.ImageFileModel;
 import com.lying.lyingdisk.dao.SysFileMapper;
 import com.lying.lyingdisk.dao.SysUserMapper;
 import com.lying.lyingdisk.entity.SysFile;
@@ -104,12 +104,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<MusicInfoModel> getImageGroupByDate(String username) {
+    public List<ImageFileModel> getImageGroupByDate(String username) {
         SysUser user = sysUserMapper.getUserByName(username);
         if (ObjectUtil.isNull(user)){
             throw new RuntimeException("用户信息不存在！");
         }
-        List<MusicInfoModel> imageInfo = sysFileMapper.getImageGroupByDate(user.getUserId());
+        List<ImageFileModel> imageInfo = sysFileMapper.getImageGroupByDate(user.getUserId());
         imageInfo.forEach(image -> {
             String viewPathList = image.getViewPathList();
             String[] PathList = viewPathList.split(",");
@@ -119,44 +119,44 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public MusicInfoModel getAllImage(String username) {
+    public ImageFileModel getAllImage(String username) {
         SysUser user = sysUserMapper.getUserByName(username);
         if (ObjectUtil.isNull(user)){
             throw new RuntimeException("用户信息不存在！");
         }
-        List<MusicInfoModel> allImage = sysFileMapper.getAllImage(user.getUserId());
+        List<ImageFileModel> allImage = sysFileMapper.getAllImage(user.getUserId());
         List<String> pathList = allImage.stream()
                 .map(model -> model.getViewPath())
                 .collect(Collectors.toList());
-        MusicInfoModel musicInfoModel = new MusicInfoModel();
-        musicInfoModel.setNginxViewList(pathList);
-        return musicInfoModel;
+        ImageFileModel ImageFileModel = new ImageFileModel();
+        ImageFileModel.setNginxViewList(pathList);
+        return ImageFileModel;
     }
 
     @Override
-    public MusicInfoModel searchImage(String keyword, String username) {
+    public ImageFileModel searchImage(String keyword, String username) {
         SysUser user = sysUserMapper.getUserByName(username);
         if (ObjectUtil.isNull(user)){
             throw new RuntimeException("用户信息不存在！");
         }
 
         //如果传入的参数能转换成数字，则代表是日期
-        List<MusicInfoModel> musicInfoModels = null;
+        List<ImageFileModel> ImageFileModels = null;
         try {
             if (Integer.parseInt(keyword.replaceAll("-","")) > 0) {
-                musicInfoModels = sysFileMapper.searchImage(keyword, null,user.getUserId());
+                ImageFileModels = sysFileMapper.searchImage(keyword, null,user.getUserId());
             }
         } catch (NumberFormatException e) {
-            musicInfoModels = sysFileMapper.searchImage(null, keyword, user.getUserId());
+            ImageFileModels = sysFileMapper.searchImage(null, keyword, user.getUserId());
         }
-        MusicInfoModel finalMusicInfoModel = new MusicInfoModel();
-        if (CollectionUtil.isNotEmpty(musicInfoModels)){
-            List<String> viewPathList = musicInfoModels.stream()
-                    .map(musicInfoModel -> musicInfoModel.getViewPath())
+        ImageFileModel finalImageFileModel = new ImageFileModel();
+        if (CollectionUtil.isNotEmpty(ImageFileModels)){
+            List<String> viewPathList = ImageFileModels.stream()
+                    .map(ImageFileModel -> ImageFileModel.getViewPath())
                     .collect(Collectors.toList());
-            finalMusicInfoModel.setNginxViewList(viewPathList);
+            finalImageFileModel.setNginxViewList(viewPathList);
 
         }
-        return finalMusicInfoModel;
+        return finalImageFileModel;
     }
 }

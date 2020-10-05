@@ -191,7 +191,7 @@ public class FileController {
     @GetMapping("/getImageGroupByDate")
     @ResponseBody
     public Result getImageGroupByDate(String username){
-        List<MusicInfoModel> imageInfo = fileService.getImageGroupByDate(username);
+        List<ImageFileModel> imageInfo = fileService.getImageGroupByDate(username);
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
     }
 
@@ -201,7 +201,7 @@ public class FileController {
     @GetMapping("/getAllImage")
     @ResponseBody
     public Result getAllImage(String username){
-        MusicInfoModel imageInfo = fileService.getAllImage(username);
+        ImageFileModel imageInfo = fileService.getAllImage(username);
         return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
     }
 
@@ -211,8 +211,8 @@ public class FileController {
     @GetMapping("/searchImage")
     @ResponseBody
     public Result searchImage(String keyWord, String username){
-        MusicInfoModel musicInfoModel = fileService.searchImage(keyWord,username);
-        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",musicInfoModel);
+        ImageFileModel ImageFileModel = fileService.searchImage(keyWord,username);
+        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",ImageFileModel);
     }
 
     public SysFile convertFileInfoMap(MultipartFile file,Map pathInfoMap,UploadFileModel uploadFileModel ){

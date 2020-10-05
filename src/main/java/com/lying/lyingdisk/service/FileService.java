@@ -2,7 +2,7 @@ package com.lying.lyingdisk.service;
 
 import com.lying.lyingdisk.common.model.file.AllFileModel;
 import com.lying.lyingdisk.common.model.file.DownloadFileModel;
-import com.lying.lyingdisk.common.model.file.MusicInfoModel;
+import com.lying.lyingdisk.common.model.file.ImageFileModel;
 import com.lying.lyingdisk.entity.SysFile;
 
 import java.util.List;
@@ -37,15 +37,15 @@ public interface FileService {
     /**
      * 根据日期展示图片的信息
      */
-    List<MusicInfoModel> getImageGroupByDate(String username);
+    List<ImageFileModel> getImageGroupByDate(String username);
 
     /**
      * 展示所有的图片
      */
-    MusicInfoModel getAllImage(String username);
+    ImageFileModel getAllImage(String username);
 
     /**
      * 根据条件查询图片
      */
-    MusicInfoModel searchImage(String keyword, String username);
+    ImageFileModel searchImage(String keyword, String username);
 }
