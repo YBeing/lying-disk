@@ -185,35 +185,7 @@ public class FileController {
 
     }
 
-    /**
-     * 图片展示，根据时间轴
-     */
-    @GetMapping("/getImageGroupByDate")
-    @ResponseBody
-    public Result getImageGroupByDate(String username){
-        List<ImageFileModel> imageInfo = fileService.getImageGroupByDate(username);
-        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
-    }
 
-    /**
-     * 查询所有图片，根据时间排序展示
-     */
-    @GetMapping("/getAllImage")
-    @ResponseBody
-    public Result getAllImage(String username){
-        ImageFileModel imageInfo = fileService.getAllImage(username);
-        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",imageInfo);
-    }
-
-    /**
-     * 查询图片
-     */
-    @GetMapping("/searchImage")
-    @ResponseBody
-    public Result searchImage(String keyWord, String username){
-        ImageFileModel ImageFileModel = fileService.searchImage(keyWord,username);
-        return  new Result(ErrorCodeEnum.SUCCESS.getCode(),"查询成功","1",ImageFileModel);
-    }
 
     public SysFile convertFileInfoMap(MultipartFile file,Map pathInfoMap,UploadFileModel uploadFileModel ){
         Map fileInfo = new HashMap();
