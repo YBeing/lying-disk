@@ -6,9 +6,9 @@ spring:
     password: root
     username: root
     #生产环境
-    #url: jdbc:mysql://121.196.29.156:3306/lyingdisk?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://121.196.29.156:3306/lyingdisk?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     #测试环境
-    url: jdbc:mysql://localhost:3306/lyingdisk?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    #url: jdbc:mysql://localhost:3306/lyingdisk?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
     multipart:

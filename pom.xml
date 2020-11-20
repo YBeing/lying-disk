@@ -11,7 +11,7 @@
     <groupId>com.lying</groupId>
     <artifactId>lying-disk</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>lying-disk</name>
     <description>Demo project for Spring Boot</description>
 
@@ -126,11 +126,11 @@
             <version>1.2.73</version>
         </dependency>
         <!--在项目打包时，剔除springboot内置tomcat-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
